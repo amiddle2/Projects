@@ -38,37 +38,35 @@ def save_entry(entry):
 
 class TrackerApp:
     def __init__(self):
-        # Use the whole screen size dynamically
         screen_w, screen_h = ui.get_screen_size()
         self.main_view = ui.View(frame=(0, 0, screen_w, screen_h))
         self.main_view.name = 'Expense Tracker'
+        self.main_view.background_color = 'white'
 
-        # Top segment controller for tabs
         self.segment = ui.SegmentedControl(frame=(10, 30, screen_w - 20, 30))
         self.segment.segments = ['Add Entry', 'View Entries', 'Summary']
         self.segment.action = self.switch_tab
-        self.segment.flex = 'W'  # width flexible
+        self.segment.flex = 'W'
+        self.segment.tint_color = '#007AFF'  # iOS blue tint
         self.main_view.add_subview(self.segment)
 
-        # Calculate content frame below segment control
         content_y = self.segment.y + self.segment.height + 10
         content_h = screen_h - content_y - 10
 
-        # Create tab views, all same size and stacked
         self.v_add = ui.View(frame=(0, content_y, screen_w, content_h))
         self.v_list = ui.View(frame=self.v_add.frame)
         self.v_summary = ui.View(frame=self.v_add.frame)
 
-        # Make them flexible to resize with screen
         for v in (self.v_add, self.v_list, self.v_summary):
             v.flex = 'WH'
+            v.background_color = 'white'
             self.main_view.add_subview(v)
 
         self.setup_add_tab()
         self.setup_list_tab()
         self.setup_summary_tab()
 
-        self.switch_tab()  # show first tab
+        self.switch_tab()
 
     def setup_add_tab(self):
         v = self.v_add
@@ -82,25 +80,28 @@ class TrackerApp:
         for lbl_text, name in zip(labels, names):
             label = ui.Label(frame=(10, y, v.width - 20, 30))
             label.text = lbl_text
-            label.flex = 'W'  # flexible width
+            label.text_color = 'black'
+            label.flex = 'W'
             v.add_subview(label)
 
             tf = ui.TextField(frame=(10, y + 30, v.width - 20, 35))
             tf.border_style = 1  # rounded border
+            tf.background_color = 'white'
+            tf.text_color = 'black'
             tf.flex = 'W'
             if name == 't_amt':
-                # Use numeric keyboard - numeric value 4 or 3 (numbers and punctuation or just numbers)
-                tf.keyboard_type = 4  # numbers & punctuation; fallback to 3 if errors
+                tf.keyboard_type = 4  # numbers & punctuation keyboard
             setattr(self, name, tf)
             self.fields[name] = tf
             v.add_subview(tf)
             y += 80
 
-        # Submit button
         btn = ui.Button(frame=(10, y, v.width - 20, 45))
         btn.title = 'Add Entry'
         btn.action = self.do_add_entry
         btn.flex = 'W'
+        btn.background_color = '#007AFF'
+        btn.tint_color = 'white'
         v.add_subview(btn)
 
     def do_add_entry(self, sender):
@@ -131,7 +132,6 @@ class TrackerApp:
         save_entry(entry)
         dialogs.alert('Success', 'Entry added!', 'OK')
 
-        # Clear form
         for tf in self.fields.values():
             tf.text = ''
 
@@ -145,19 +145,22 @@ class TrackerApp:
         self.table.flex = 'WH'
         self.table.data_source = self
         self.table.delegate = self
+        self.table.background_color = 'white'
         v.add_subview(self.table)
 
         btn = ui.Button(frame=(10, v.height - 50, v.width - 20, 40))
         btn.title = 'Delete Selected'
         btn.action = self.do_delete
         btn.flex = 'W'
+        btn.background_color = '#FF3B30'  # iOS red delete button
+        btn.tint_color = 'white'
         v.add_subview(btn)
+
         self.refresh_list()
 
     def refresh_list(self):
         self.entries = load_entries()
         self.table.reload()
-        # Reset selected row on refresh
         self.selected_row = None
 
     def tableview_number_of_rows(self, tv, section):
@@ -166,6 +169,8 @@ class TrackerApp:
     def tableview_cell_for_row(self, tv, section, row):
         cell = ui.TableViewCell()
         e = self.entries[row]
+        cell.background_color = 'white'
+        cell.text_label.text_color = 'black'
         cell.text_label.text = f"{e['date']} | {e['type']} | {e['category']} | ${e['amount']} | {e['description']}"
         return cell
 
@@ -196,6 +201,8 @@ class TrackerApp:
         self.summary_view = ui.TextView(frame=(10, 10, v.width - 20, v.height - 20))
         self.summary_view.editable = False
         self.summary_view.flex = 'WH'
+        self.summary_view.background_color = 'white'
+        self.summary_view.text_color = 'black'
         v.add_subview(self.summary_view)
 
     def show_summary(self):
