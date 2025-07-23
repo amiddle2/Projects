@@ -156,15 +156,23 @@ class TrackerApp:
         self.table.background_color = 'white'
         v.add_subview(self.table)
 
-        btn = ui.Button(frame=(10, v.height - 50, v.width - 20, 40))
-        btn.title = 'Delete Selected'
-        btn.action = self.do_delete
-        btn.flex = 'W'
-        btn.background_color = '#FF3B30'  # iOS red delete button
-        btn.tint_color = 'white'
-        v.add_subview(btn)
+        self.btn_delete = ui.Button()
+        self.btn_delete.title = 'Delete Selected'
+        self.btn_delete.action = self.do_delete
+        self.btn_delete.background_color = '#FF3B30'
+        self.btn_delete.tint_color = 'white'
+        self.btn_delete.flex = 'W'
+        v.add_subview(self.btn_delete)
+
+        # Set button frame in layout method
+        def layout(_):
+            self.table.frame = (10, 10, v.width - 20, v.height - 70)
+            self.btn_delete.frame = (10, v.height - 50, v.width - 20, 40)
+        v.set_needs_layout()
+        v.layout = layout
 
         self.refresh_list()
+
 
     def refresh_list(self):
         self.entries = load_entries()
