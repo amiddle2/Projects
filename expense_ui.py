@@ -90,7 +90,7 @@ class TrackerApp:
             tf.text_color = 'black'
             tf.flex = 'W'
             if name == 't_amt':
-                tf.keyboard_type = 4  # numbers & punctuation keyboard
+                tf.keyboard_type = 2  # numbers & punctuation keyboard
             setattr(self, name, tf)
             self.fields[name] = tf
             v.add_subview(tf)
@@ -104,38 +104,46 @@ class TrackerApp:
         btn.tint_color = 'white'
         v.add_subview(btn)
 
-    def do_add_entry(self, sender):
-        etype = self.t_type.text.strip().lower()
-        cat = self.t_cat.text.strip()
-        amt = self.t_amt.text.strip()
-        desc = self.t_desc.text.strip()
+def do_add_entry(self, sender):
+    etype = self.t_type.text.strip().lower()
+    cat = self.t_cat.text.strip()
+    amt = self.t_amt.text.strip()
+    desc = self.t_desc.text.strip()
 
-        if etype not in ('income', 'expense'):
-            dialogs.alert('Error', "Type must be 'income' or 'expense'", 'OK')
-            return
-        if not cat:
-            dialogs.alert('Error', "Category is required", 'OK')
-            return
-        try:
-            amt_f = float(amt)
-        except:
-            dialogs.alert('Error', "Amount must be a number", 'OK')
-            return
+    if etype not in ('income', 'expense'):
+        dialogs.alert('Error', "Type must be 'income' or 'expense'", 'OK')
+        return
+    if not cat:
+        dialogs.alert('Error', "Category is required", 'OK')
+        return
+    try:
+        amt_f = float(amt)
+    except:
+        dialogs.alert('Error', "Amount must be a number", 'OK')
+        return
 
-        entry = {
-            'date': datetime.now().strftime('%Y-%m-%d'),
-            'type': etype,
-            'category': cat,
-            'amount': f'{amt_f:.2f}',
-            'description': desc
-        }
-        save_entry(entry)
+    entry = {
+        'date': datetime.now().strftime('%Y-%m-%d'),
+        'type': etype,
+        'category': cat,
+        'amount': f'{amt_f:.2f}',
+        'description': desc
+    }
+    save_entry(entry)
+
+    # Clear form
+    for tf in self.fields.values():
+        tf.text = ''
+
+    # Show alert with delay to avoid blocking UI immediately
+    def show_success():
         dialogs.alert('Success', 'Entry added!', 'OK')
+        # Refresh list only if View Entries tab is active
+        if self.segment.selected_index == 1:
+            self.refresh_list()
 
-        for tf in self.fields.values():
-            tf.text = ''
+    ui.delay(show_success, 0.1)
 
-        self.refresh_list()
 
     def setup_list_tab(self):
         v = self.v_list
