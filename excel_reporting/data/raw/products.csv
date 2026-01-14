@@ -1,1 +1,6 @@
-
+product_id,category,unit_cost
+P100,Software,400
+P101,Hardware,200
+P102,Software,700
+P103,Services,300
+P104,Hardware,150
