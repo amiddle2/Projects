@@ -1,4 +1,4 @@
-# My personal files and projects
+# Repo for my public projects
 
 ## Current Projects
 1. Excel Reporting Tool
