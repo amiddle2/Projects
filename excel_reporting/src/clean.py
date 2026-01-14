@@ -3,7 +3,6 @@ import pandas as pd
 def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
-    # Remove duplicates (Excel: Remove Duplicates)
     df = df.drop_duplicates()
 
     # Convert revenue to numeric
@@ -22,7 +21,7 @@ def clean_sales(df: pd.DataFrame) -> pd.DataFrame:
 def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
-    # Standardize text (Excel: TRIM / PROPER)
+    # Standardize text
     df["region"] = df["region"].str.strip().str.title()
 
     return df
