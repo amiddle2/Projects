@@ -1,1 +1,7 @@
-
+customer_id,region,customer_type
+C001,west ,Enterprise
+C002,WEST,SMB
+C003,East,Enterprise
+C004, south,SMB
+C005,South,
+C006,North,SMB
