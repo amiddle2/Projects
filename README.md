@@ -1,6 +1,6 @@
 # Current Projects
 
-## Tools
+## Tools:
 
 ### Useful Python Tools
 1. Excel Reporting Tool (excel_reporting)
