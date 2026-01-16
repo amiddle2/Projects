@@ -4,3 +4,6 @@
 
 2. File Organizer (file_organizer.py)
 - Simple script to clean up folders. Mainly used for downloads, but can be used anywhere
+
+3. CLI Connect4 Game (connect4.py)
+- Small game of connect4 as a fun side project. Currently stable. Uses CLI inputs and is designed for two human players. AI player not added yet.
