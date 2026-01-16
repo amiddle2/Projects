@@ -12,7 +12,7 @@
 
 ## Games:
 
-### Fun Games
+### Games for Fun and Programming Practice
 1. CLI Connect4 Game (connect4.py)
 - Small game of connect4 as a fun side project
 - Uses CLI inputs and is designed for two human players
