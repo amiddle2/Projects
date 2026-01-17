@@ -1,8 +1,8 @@
 from pathlib import Path
 import shutil
 
-file_path = 'downloads_folder_path'
-BASE_DIR = Path(file_path) # Use Raw string
+file_path = input("Enter filepath of folder to be organized: ")
+BASE_DIR = Path(file_path) 
 
 
 FILE_TYPES = {
